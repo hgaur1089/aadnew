@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const loginController = require('../controller/user/login-controller');
+const otpController = require('../controller/user/otp-controller');
+const ekycController = require('../controller/user/ekyc-controller');
 
-router.post('/login', loginController.login);
+router.post('/otp', otpController.otp);
+router.post('/ekyc', ekycController.ekyc)
 
 module.exports = router;
 

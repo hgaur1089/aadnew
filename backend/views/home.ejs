@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            AADHAR FORUM
+        </title>
+    </head>
+    <body>
+        <h1>Aadhar Forum</h1><br>
+        <form action="/api/user/otp" method="post">
+            <input type="text" name="uid" placeholder="Enter you AAdhar Card Number" required>
+            <input type="submit" value="SUBMIT">
+        </form>
+        <br>
+        <h1>Aadhar OTP</h1><br>
+        <form action="/api/user/ekyc" method="post">
+            <input type="hidden" name="name" value="renter" />
+            <input type="number" name="otp" placeholder="Enter your OTP" required>
+            <input type="submit" value="SUBMIT">
+        </form>
+    </body>
+</html>

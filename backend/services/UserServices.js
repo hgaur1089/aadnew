@@ -1,44 +1,52 @@
-
+//const fetch = require('node-fetch');
 
 class UserServices{
     constructor(UID){
         this.UID = UID;
     }
 
-    async login(UID){
-        const aua = "MBni88mRNM18dKdiVyDYCuddwXEQpl68dZAGBQ2nsOlGMzC9DkOVL5s";
-        const asa = "MMxNu7a6589B5x5RahDW-zNP7rhGbZb5HsTRwbi-VVNxkoFmkHGmYKM";
+     async login(UID, txnid){
 
-        var url =  `https://“auth.uidai.gov.in/otp/2.5/public/${UID[0]}/${UID[1]}/${asa}`;
+        var Url =  "https://stage1.uidai.gov.in/onlineekyc/getOtp/";
 
+        var XMLHttpRequest = require('xhr2');
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        var xmlDoc;
+        var jsonResponse;
+        var result = "n";
+        let data = JSON.stringify({
+            "uid": UID,
+            "txnId": txnid,
+        });
 
-        xhr.setRequestHeader("Content-Type", "text/xml");
+        // const otherParams = {
+        //     headers: {
+        //         "content-type":"application/json; charset=UTF-8"
+        //     },
+        //     body: data,
+        //     method: "POST"
+        // };
 
-        xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status == 200) {
-            console.log(xhr.status);
-            xmlDoc = xhr.responseXML;
-            console.log(xmlDoc);
+        // fetch(Url, otherParams)
+        //     .then(data=>{return data.json()})
+        //     .then(res=>{console.log(res)})
+        //     .catch(error=>console.log(error))
+        
+        xhr.open('POST', Url);
+        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 
-            var x = xmlDoc.getElementsByTagName('OtpRes');
-            var code = x.getAttribute('code');
-
-            return code;
-        } else{
-            return "not verified";
-        }};
-
-        var data = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <Otp uid=”${UID}” ac=”public” sa=”public” ver=”2.5” txn=”” ts=”” lk=”${aua}” type=”A”>
-         <Opts ch=”00”/>
-         <Signature>Digital signature of AUA</Signature>
-        </Otp>`;
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+               console.log(xhr.responseText);
+               jsonResponse = JSON.parse(xhr.responseText);
+               console.log(jsonResponse.status);
+               result = jsonResponse.status;
+            }
+        };
 
         xhr.send(data);
 
+        console.log(`err ${xhr.response}`);
+        return result;
 
     }
 }
